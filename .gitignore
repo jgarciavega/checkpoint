@@ -1,0 +1,46 @@
+
+# Node
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Build output
+build/
+dist/
+
+# Electron
+*.asar
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Env
+.env
+.env.*
+
+# VSCode
+.vscode/
+
+# Editor
+*.swp
+.idea/
+.history/
+
+# Coverage
+coverage/
+
+# Misc
+*.log
+*.tmp
+*.tgz
+
+# Local config
+local.env
+
+# Windows
+*.exe
+*.dll
+*.bat
+*.ps1
