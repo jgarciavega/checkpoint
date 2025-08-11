@@ -98,22 +98,6 @@ body.light {
   align-items: center;
   justify-content: space-between;
   background: var(--color-card);
-  box-shadow: var(--color-shadow);
-  border-radius: var(--radius);
-  margin: 24px auto 32px auto;
-  padding: 18px 36px;
-  max-width: 1200px;
-  position: sticky;
-  top: 16px;
-  z-index: 10;
-  backdrop-filter: blur(12px);
-}
-
-.header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  background: var(--color-card);
   box-shadow: 0 8px 32px 0 rgba(37,99,235,0.10), 0 8px 0 0 var(--color-accent);
   border-radius: var(--radius);
   margin: 24px auto 32px auto;
@@ -123,7 +107,6 @@ body.light {
   top: 16px;
   z-index: 10;
   backdrop-filter: blur(14px) saturate(1.1);
-}
   color: var(--color-primary);
 }
 
@@ -149,23 +132,6 @@ body.light {
 .card {
   background: var(--color-card);
   border-radius: var(--radius);
-  box-shadow: var(--color-shadow);
-  padding: 32px 28px;
-  min-width: 340px;
-  flex: 1 1 380px;
-  margin-bottom: 32px;
-  border: 1.5px solid var(--color-border);
-  backdrop-filter: blur(10px);
-  transition: box-shadow var(--transition), transform var(--transition);
-}
-.card:hover {
-  box-shadow: 0 12px 36px 0 rgba(37,99,235,0.18);
-  transform: translateY(-4px) scale(1.01);
-}
-
-.card {
-  background: var(--color-card);
-  border-radius: var(--radius);
   box-shadow: 0 8px 32px 0 rgba(37,99,235,0.10);
   padding: 32px 28px;
   min-width: 340px;
@@ -175,8 +141,9 @@ body.light {
   backdrop-filter: blur(10px) saturate(1.1);
   transition: box-shadow var(--transition), transform var(--transition);
 }
-  box-shadow: 0 2px 8px 0 rgba(37,99,235,0.10);
-  transition: background var(--transition), transform var(--transition);
+.card:hover {
+  box-shadow: 0 12px 36px 0 rgba(37,99,235,0.18);
+  transform: translateY(-4px) scale(1.01);
 }
 .btn-success {
   background: var(--color-success);
