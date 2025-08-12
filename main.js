@@ -12,6 +12,7 @@ const { app, BrowserWindow } = require('electron');
 const path = require('path');
 
 
+
 function createWindow() {
   const win = new BrowserWindow({
     width: 1200,
@@ -19,18 +20,24 @@ function createWindow() {
     webPreferences: {
       nodeIntegration: false,
       contextIsolation: true,
+      webSecurity: false,
     },
     icon: path.join(__dirname, 'src', 'assets', 'Api.png')
   });
-
-  // Detectar entorno
-  const isDev = process.env.NODE_ENV === 'development' || process.env.ELECTRON_START_URL;
-  if (isDev) {
-    win.loadURL('http://localhost:3000');
-  } else {
-    win.loadFile(path.join(__dirname, 'build', 'index.html'));
-  }
+  // Siempre cargar la app desde localhost:3000 para acceso a cámara
+  win.loadURL('http://localhost:3000');
 }
+
+// Permitir permisos de cámara/micrófono en Electron
+app.on('web-contents-created', function (event, contents) {
+  contents.session.setPermissionRequestHandler(function (webContents, permission, callback) {
+    if (permission === 'media') {
+      callback(true); // Permitir acceso a cámara/micrófono
+    } else {
+      callback(false);
+    }
+  });
+});
 
 app.whenReady().then(createWindow);
 

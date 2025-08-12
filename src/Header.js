@@ -33,7 +33,7 @@ function Header({ onConfigClick }) {
           src={logoLight}
           alt="Logo API"
           style={{
-            width: isDark ? 130 : 100,
+            width: isDark ? 130 : 200,
             height: isDark ? 130 : 100,
             objectFit: 'contain',
             background: 'none',
