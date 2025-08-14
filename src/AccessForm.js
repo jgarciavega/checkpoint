@@ -29,7 +29,7 @@ function AccessForm({ onSubmit }) {
   };
 
   return (
-    <form className="card" style={{ maxWidth: 420 }}>
+  <form className="card" style={{ width: '100%', maxWidth: 1200, minWidth: 320, margin: '0 auto' }}>
       <h2 style={{ color: 'var(--color-primary)', marginBottom: 16, fontWeight: 700 }}>Información de la Unidad</h2>
       <label style={{ color: 'var(--color-text)', fontWeight: 500 }}>
         Tipo de Unidad:

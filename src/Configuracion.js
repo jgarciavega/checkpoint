@@ -11,7 +11,7 @@ import jsPDF from 'jspdf';
 import autoTable from 'jspdf-autotable';
 
 // Simulación: importar registros de la bitácora
-import { registros as registrosBitacora } from './Bitacora';
+
 
 const defaultConfig = {
   modoOscuro: 'auto',
@@ -22,7 +22,7 @@ const defaultConfig = {
 };
 
 
-function Configuracion({ onConfigChange }) {
+function Configuracion({ onConfigChange, registros = [] }) {
   const [config, setConfig] = useState(defaultConfig);
 
   useEffect(() => {
@@ -42,7 +42,35 @@ function Configuracion({ onConfigChange }) {
 
   // Exportar a Excel
   const exportarExcel = () => {
-    const ws = XLSX.utils.json_to_sheet(registrosBitacora);
+    const formato = config.formatoRegistro || 'completo';
+    const camposReducido = [
+      { label: 'Fecha', key: 'fecha' },
+      { label: 'Tipo de Unidad', key: 'tipoUnidad' },
+      { label: 'Número de Unidad', key: 'numeroUnidad' },
+      { label: 'Conductor', key: 'conductor' },
+      { label: 'Movimiento', key: 'movimiento' },
+      { label: 'Folio', key: 'folio' },
+    ];
+    const camposCompleto = [
+      { label: 'Fecha', key: 'fecha' },
+      { label: 'Tipo de Unidad', key: 'tipoUnidad' },
+      { label: 'Número de Unidad', key: 'numeroUnidad' },
+      { label: 'Conductor', key: 'conductor' },
+      { label: 'Empresa', key: 'empresa' },
+      { label: 'Modelo', key: 'modelo' },
+      { label: 'Placas', key: 'placas' },
+      { label: 'Año', key: 'anio' },
+      { label: 'Póliza', key: 'poliza' },
+      { label: 'Movimiento', key: 'movimiento' },
+      { label: 'Folio', key: 'folio' },
+    ];
+    const campos = formato === 'reducido' ? camposReducido : camposCompleto;
+  const data = registros.map(r => {
+      const obj = {};
+      campos.forEach(c => { obj[c.label] = r[c.key] || ''; });
+      return obj;
+    });
+    const ws = XLSX.utils.json_to_sheet(data);
     const wb = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(wb, ws, 'Bitacora');
     const wbout = XLSX.write(wb, { bookType: 'xlsx', type: 'array' });
@@ -51,15 +79,36 @@ function Configuracion({ onConfigChange }) {
 
   // Exportar a PDF
   const exportarPDF = () => {
+    const formato = config.formatoRegistro || 'completo';
+    const camposReducido = [
+      { label: 'Fecha', key: 'fecha' },
+      { label: 'Tipo de Unidad', key: 'tipoUnidad' },
+      { label: 'Número de Unidad', key: 'numeroUnidad' },
+      { label: 'Conductor', key: 'conductor' },
+      { label: 'Movimiento', key: 'movimiento' },
+      { label: 'Folio', key: 'folio' },
+    ];
+    const camposCompleto = [
+      { label: 'Fecha', key: 'fecha' },
+      { label: 'Tipo de Unidad', key: 'tipoUnidad' },
+      { label: 'Número de Unidad', key: 'numeroUnidad' },
+      { label: 'Conductor', key: 'conductor' },
+      { label: 'Empresa', key: 'empresa' },
+      { label: 'Modelo', key: 'modelo' },
+      { label: 'Placas', key: 'placas' },
+      { label: 'Año', key: 'anio' },
+      { label: 'Póliza', key: 'poliza' },
+      { label: 'Movimiento', key: 'movimiento' },
+      { label: 'Folio', key: 'folio' },
+    ];
+    const campos = formato === 'reducido' ? camposReducido : camposCompleto;
+    const head = [campos.map(c => c.label)];
+  const body = registros.map(r => campos.map(c => r[c.key] || ''));
     const doc = new jsPDF();
     autoTable(doc, {
       startY: 22,
-      head: [[
-        'Fecha', 'Tipo', 'Unidad', 'Conductor', 'Movimiento', 'Folio'
-      ]],
-      body: registrosBitacora.map(r => [
-        r.fecha, r.tipo, r.unidad, r.conductor, r.movimiento, r.folio
-      ]),
+      head,
+      body,
       styles: { fontSize: 9 },
       headStyles: { fillColor: [37, 99, 235] },
     });
@@ -86,9 +135,16 @@ function Configuracion({ onConfigChange }) {
 
   // Imprimir solo la bitácora con los campos actuales
   const imprimirBitacora = () => {
-    // Crear ventana temporal para impresión
-    const printWindow = window.open('', '', 'width=900,height=700');
-    const campos = [
+    const formato = config.formatoRegistro || 'completo';
+    const camposReducido = [
+      { label: 'Fecha', key: 'fecha' },
+      { label: 'Tipo de Unidad', key: 'tipoUnidad' },
+      { label: 'Número de Unidad', key: 'numeroUnidad' },
+      { label: 'Conductor', key: 'conductor' },
+      { label: 'Movimiento', key: 'movimiento' },
+      { label: 'Folio', key: 'folio' },
+    ];
+    const camposCompleto = [
       { label: 'Fecha', key: 'fecha' },
       { label: 'Tipo de Unidad', key: 'tipoUnidad' },
       { label: 'Número de Unidad', key: 'numeroUnidad' },
@@ -101,8 +157,11 @@ function Configuracion({ onConfigChange }) {
       { label: 'Movimiento', key: 'movimiento' },
       { label: 'Folio', key: 'folio' },
     ];
+    const campos = formato === 'reducido' ? camposReducido : camposCompleto;
+    // Crear ventana temporal para impresión
+    const printWindow = window.open('', '', 'width=900,height=700');
     // Generar tabla HTML
-    const tabla = `
+  const tabla = `
       <style>
         body { font-family: 'Poppins', Arial, sans-serif; color: #1e293b; background: #f4f6fb; }
         h2 { color: #2563eb; }
@@ -119,7 +178,7 @@ function Configuracion({ onConfigChange }) {
           </tr>
         </thead>
         <tbody>
-          ${registrosBitacora.map(r => `
+          ${registros.map(r => `
             <tr>
               ${campos.map(c => `<td>${r[c.key] || ''}</td>`).join('')}
             </tr>
@@ -137,7 +196,7 @@ function Configuracion({ onConfigChange }) {
   };
 
   return (
-    <section className="card" style={{ maxWidth: 420 }}>
+  <section className="card" style={{ width: '100%', maxWidth: 1200, minWidth: 320, margin: '0 auto' }}>
       <h2 style={{ color: 'var(--color-primary)', marginBottom: 16, fontWeight: 700 }}>Configuración</h2>
       <form>
         <label style={{ color: 'var(--color-text)', fontWeight: 500 }}>

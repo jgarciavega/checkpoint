@@ -75,7 +75,7 @@ function QrScannerPanel() {
   };
 
   return (
-    <section className="card" style={{ maxWidth: 420 }}>
+  <section className="card" style={{ width: '100%', maxWidth: 1200, minWidth: 320, margin: '0 auto' }}>
       <h2 style={{ color: 'var(--color-primary)', marginBottom: 16, fontWeight: 700 }}>Escanear Código QR</h2>
       <div className={`qr-scanner${active ? ' active' : ''}`} style={{ marginBottom: 18, minHeight: 220, position: 'relative' }}>
         {active ? (

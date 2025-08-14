@@ -22,7 +22,7 @@ function createWindow() {
       contextIsolation: true,
       webSecurity: false,
     },
-    icon: path.join(__dirname, 'src', 'assets', 'Api.png')
+  icon: path.join(__dirname, 'src', 'assets', 'logo-principal2.ico')
   });
   // Siempre cargar la app desde localhost:3000 para acceso a cámara
   win.loadURL('http://localhost:3000');

@@ -1,3 +1,19 @@
+.timeline-info-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 10px 32px;
+  width: 100%;
+  margin-top: 8px;
+}
+.timeline-info-cell {
+  font-size: 1.08rem;
+  font-weight: 500;
+  color: var(--color-text);
+  word-break: break-word;
+}
+body.dark .timeline-info-cell {
+  color: #f4f6fb;
+}
 body.dark h1, body.dark h2, body.dark h3, body.dark h4, body.dark h5, body.dark h6, body.dark .main-title {
   color: #fff !important;
   text-shadow: 0 2px 12px rgba(0,0,0,0.25), 0 1px 0 #1746b1;
