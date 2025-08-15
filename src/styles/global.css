@@ -238,6 +238,52 @@ body.dark .input::placeholder {
   100% { box-shadow: 0 0 32px 6px var(--color-accent); }
 }
 
+/* Overlay y target para la vista de cámara */
+.scanner-overlay {
+  pointer-events: none;
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.scanner-target {
+  width: 38%;
+  aspect-ratio: 1/1;
+  border-radius: 8px;
+  box-shadow: 0 0 0 9999px rgba(0,0,0,0.12);
+  border: 2px dashed rgba(255,255,255,0.9);
+  position: relative;
+  backdrop-filter: blur(2px) saturate(1.05);
+}
+body.dark .scanner-target {
+  border-color: rgba(225,29,72,0.95);
+}
+@media (max-width: 720px) {
+  .scanner-target { width: 68%; }
+}
+
+/* efecto temporal cuando se detecta QR */
+.qr-detected .scanner-target {
+  border-color: #10b981 !important; /* verde */
+  box-shadow: 0 0 0 9999px rgba(16,185,129,0.12), 0 0 18px 6px rgba(16,185,129,0.25) !important;
+  transform: scale(0.995);
+}
+
+/* instrucciones dentro del scanner */
+.qr-scanner .scanner-instructions {
+  position: absolute;
+  bottom: 12px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(0,0,0,0.45);
+  color: #fff;
+  padding: 8px 12px;
+  border-radius: 8px;
+  font-size: 0.92rem;
+  pointer-events: none;
+}
+
 .timeline {
   display: flex;
   flex-direction: column;

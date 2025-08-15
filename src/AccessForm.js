@@ -13,8 +13,8 @@ const initialState = {
   movimiento: 'entrada',
 };
 
-function AccessForm({ onSubmit }) {
-  const [form, setForm] = useState(initialState);
+function AccessForm({ onSubmit, initialData }) {
+  const [form, setForm] = useState(() => ({ ...initialState, ...initialData }));
 
   const handleChange = e => {
     const { name, value } = e.target;
@@ -27,6 +27,13 @@ function AccessForm({ onSubmit }) {
     onSubmit && onSubmit(nuevoRegistro);
     setForm(initialState);
   };
+
+  // permitir actualizar el formulario desde fuera (por ejemplo, App.js)
+  React.useEffect(() => {
+    if (initialData && Object.keys(initialData).length) {
+      setForm(prev => ({ ...prev, ...initialData }));
+    }
+  }, [initialData]);
 
   return (
   <form className="card" style={{ width: '100%', maxWidth: 1200, minWidth: 320, margin: '0 auto' }}>
