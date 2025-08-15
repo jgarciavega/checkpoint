@@ -44,3 +44,7 @@ local.env
 *.dll
 *.bat
 *.ps1
+
+# Ignore optimization artifacts and backups
+src/assets.optim/
+src/assets.orig/
