@@ -1,3 +1,9 @@
+const { app, BrowserWindow } = require('electron');
+const path = require('path');
+
+// Ignorar errores de certificados SSL en desarrollo
+app.commandLine.appendSwitch('ignore-certificate-errors', 'true');
+
 // Hot reload solo en desarrollo
 if (process.env.NODE_ENV === 'development') {
   try {
@@ -8,10 +14,6 @@ if (process.env.NODE_ENV === 'development') {
     console.log('electron-reload no está instalado');
   }
 }
-const { app, BrowserWindow } = require('electron');
-const path = require('path');
-
-
 
 function createWindow() {
   const win = new BrowserWindow({
@@ -25,7 +27,7 @@ function createWindow() {
   icon: path.join(__dirname, 'src', 'assets', 'logo-principal2.ico')
   });
   // Siempre cargar la app desde localhost:3000 para acceso a cámara
-  win.loadURL('http://localhost:3000');
+  win.loadURL('https://localhost:3000');
 }
 
 // Permitir permisos de cámara/micrófono en Electron

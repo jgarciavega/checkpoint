@@ -1,0 +1,239 @@
+/* Estilos responsive globales */
+
+/* Botones responsive */
+@media (max-width: 768px) {
+  /* Contenedor de botones superior */
+  .buttons-container {
+    padding: 8px 16px 0 0 !important;
+    flex-direction: column-reverse !important;
+    align-items: flex-end !important;
+    gap: 8px !important;
+  }
+
+  /* Botón cerrar menú */
+  .close-menu-btn {
+    padding: 6px 12px !important;
+    font-size: 0.85rem !important;
+    border-radius: 6px !important;
+  }
+
+  /* Botón cerrar sesión */
+  .logout-btn {
+    padding: 6px 16px !important;
+    font-size: 0.9rem !important;
+    letter-spacing: 0.5px !important;
+  }
+
+  /* Título principal responsive */
+  .app-title {
+    font-size: 1.8rem !important;
+    margin: 8px 0 6px 0 !important;
+    letter-spacing: 1px !important;
+    padding: 0 16px !important;
+  }
+
+  /* Operador en turno */
+  .operator-info {
+    font-size: 1rem !important;
+    margin: 0 0 12px 0 !important;
+    padding: 0 16px !important;
+  }
+
+  /* Contenido principal */
+  .main-content {
+    padding: 16px 0 !important;
+    min-height: calc(100vh - 200px) !important;
+  }
+
+  .main-content > div {
+    width: 95vw !important;
+    padding: 0 8px !important;
+  }
+}
+
+@media (max-width: 480px) {
+  .app-title {
+    font-size: 1.5rem !important;
+    margin: 6px 0 4px 0 !important;
+    letter-spacing: 0.5px !important;
+  }
+
+  .operator-info {
+    font-size: 0.9rem !important;
+  }
+
+  .buttons-container {
+    padding: 6px 8px 0 0 !important;
+  }
+
+  .close-menu-btn {
+    padding: 5px 10px !important;
+    font-size: 0.8rem !important;
+  }
+
+  .logout-btn {
+    padding: 5px 14px !important;
+    font-size: 0.85rem !important;
+  }
+}
+
+/* Componentes específicos responsive */
+
+/* QR Scanner responsive */
+@media (max-width: 768px) {
+  .qr-scanner-container {
+    max-width: 100vw !important;
+    padding: 0 16px !important;
+  }
+
+  .qr-scanner-title {
+    font-size: 1.5rem !important;
+    margin-bottom: 12px !important;
+  }
+
+  .qr-scanner-reader {
+    width: 280px !important;
+    height: 280px !important;
+    margin: 0 auto !important;
+  }
+}
+
+@media (max-width: 480px) {
+  .qr-scanner-reader {
+    width: 240px !important;
+    height: 240px !important;
+  }
+
+  .qr-scanner-title {
+    font-size: 1.3rem !important;
+  }
+}
+
+/* Formularios responsive */
+@media (max-width: 768px) {
+  .form-container {
+    padding: 0 16px !important;
+  }
+
+  .form-input {
+    font-size: 16px !important; /* Evita zoom en iOS */
+    padding: 12px !important;
+  }
+
+  .form-button {
+    padding: 12px 24px !important;
+    font-size: 1rem !important;
+    width: 100% !important;
+    max-width: 300px !important;
+  }
+}
+
+/* Bitácora responsive */
+@media (max-width: 768px) {
+  .bitacora-table {
+    font-size: 0.85rem !important;
+  }
+
+  .bitacora-cell {
+    padding: 8px 4px !important;
+  }
+
+  .bitacora-header {
+    font-size: 0.9rem !important;
+    padding: 10px 8px !important;
+  }
+}
+
+/* Login responsive */
+@media (max-width: 768px) {
+  .login-form-container {
+    padding: 16px !important;
+  }
+
+  .login-form {
+    width: 100% !important;
+    max-width: 400px !important;
+    margin: 0 auto !important;
+  }
+
+  .login-form input {
+    font-size: 16px !important; /* Evita zoom en iOS */
+  }
+}
+
+/* Configuración responsive */
+@media (max-width: 768px) {
+  .config-modal {
+    width: 95vw !important;
+    height: 90vh !important;
+    max-width: none !important;
+  }
+
+  .config-section {
+    padding: 12px !important;
+  }
+}
+
+/* Utilidades responsive */
+.hide-mobile {
+  display: block;
+}
+
+.show-mobile {
+  display: none;
+}
+
+@media (max-width: 768px) {
+  .hide-mobile {
+    display: none;
+  }
+
+  .show-mobile {
+    display: block;
+  }
+}
+
+/* Mejoras de touch para móviles */
+@media (hover: none) and (pointer: coarse) {
+  /* Aumentar área de toque para elementos interactivos */
+  button,
+  .clickable {
+    min-height: 44px;
+    min-width: 44px;
+  }
+
+  /* Remover hover effects en dispositivos táctiles */
+  button:hover,
+  .clickable:hover {
+    transform: none !important;
+    box-shadow: inherit !important;
+  }
+
+  /* Mejorar feedback táctil */
+  button:active,
+  .clickable:active {
+    transform: scale(0.98);
+    transition: transform 0.1s ease;
+  }
+}
+
+/* Landscape en móviles */
+@media screen and (max-height: 500px) and (orientation: landscape) {
+  .navbar {
+    min-height: 60px !important;
+  }
+
+  .app-title {
+    font-size: 1.4rem !important;
+    margin: 4px 0 !important;
+  }
+
+  .operator-info {
+    font-size: 0.9rem !important;
+    margin: 0 0 8px 0 !important;
+  }
+
+  .main-content {
+    padding: 8px 0 !important;
+  }
+}

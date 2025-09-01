@@ -45,6 +45,7 @@ module.exports = {
     hot: true,
     open: false,
     historyApiFallback: true,
+    server: 'https',
   },
   target: 'web',
 };

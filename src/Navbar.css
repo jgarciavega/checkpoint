@@ -1,26 +1,60 @@
-
 .navbar {
   width: 100%;
+  max-width: 100vw;
   background: #1e293b;
   color: #fff;
   display: flex;
   align-items: center;
-  padding: 0 32px;
+  padding: 0 16px;
   min-height: 100px;
   height: auto;
   box-shadow: 0 2px 16px #0002;
   position: sticky;
   top: 0;
   z-index: 100;
+  box-sizing: border-box;
+  overflow: hidden;
 }
 
-.navbar-logo {
-  font-size: 2rem;
-  margin-right: 32px;
+.navbar-logo-img {
+  width: 110px;
+  height: 110px;
+  object-fit: contain;
   filter: drop-shadow(0 2px 8px #0005);
-  display: flex;
-  align-items: center;
-  height: 90px;
+  margin-right: 72px;
+}
+
+/* Botón hamburguesa - oculto por defecto */
+.hamburger-btn {
+  display: none;
+  flex-direction: column;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 8px;
+  margin-right: 16px;
+  z-index: 102;
+}
+
+.hamburger-line {
+  width: 25px;
+  height: 3px;
+  background: #fff;
+  margin: 3px 0;
+  transition: 0.3s;
+  border-radius: 2px;
+}
+
+.hamburger-line.active:nth-child(1) {
+  transform: rotate(-45deg) translate(-5px, 6px);
+}
+
+.hamburger-line.active:nth-child(2) {
+  opacity: 0;
+}
+
+.hamburger-line.active:nth-child(3) {
+  transform: rotate(45deg) translate(-5px, -6px);
 }
 
 .navbar-list {
@@ -29,6 +63,209 @@
   list-style: none;
   margin: 0;
   padding: 0;
+  transition: all 0.3s ease;
+  flex-shrink: 0;
+  max-width: calc(100% - 200px);
+  overflow: hidden;
+}
+
+.navbar-spacer {
+  flex: 1;
+}
+
+.navbar-fecha-hora {
+  font-weight: 500;
+  font-size: 1.08rem;
+  color: #fff;
+  margin-right: 16px;
+  transition: opacity 0.3s ease;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.navbar-modo-btn {
+  transition: all 0.3s ease;
+  margin-right: 32px;
+}
+
+.navbar-overlay {
+  display: none;
+}
+
+/* Ocultar botón de cerrar sesión en desktop */
+.navbar-logout-btn {
+  display: none;
+}
+
+/* Estilos responsive para móvil */
+@media (max-width: 768px) {
+  .navbar {
+    padding: 0 16px;
+    min-height: 80px;
+    justify-content: space-between;
+    position: fixed;
+    width: 100%;
+    top: 0;
+    left: 0;
+    z-index: 9998;
+  }
+
+  .navbar-logo-img {
+    width: 60px;
+    height: 60px;
+    margin-right: 0;
+  }
+
+  /* Mostrar botón hamburguesa en móvil */
+  .hamburger-btn {
+    display: flex;
+    order: -1;
+    z-index: 10000;
+    position: relative;
+  }
+
+  /* Menú móvil desplegable */
+  .navbar-list {
+    position: fixed;
+    top: 80px;
+    left: 0;
+    width: 100%;
+    background: #1e293b;
+    flex-direction: column;
+    gap: 0;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.2);
+    transform: translateX(-100%);
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+    z-index: 9999;
+    max-height: calc(100vh - 80px);
+    overflow-y: auto;
+  }
+
+  .navbar-list-open {
+    transform: translateX(0);
+    opacity: 1;
+    visibility: visible;
+  }
+
+  .navbar-list li {
+    width: 100%;
+    margin: 0;
+    padding: 16px 24px;
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+    justify-content: flex-start;
+  }
+
+  .navbar-list li:last-child {
+    border-bottom: none;
+  }
+
+  /* Botón cerrar sesión en menú móvil */
+  .navbar-logout-btn {
+    display: flex !important;
+    background: #dc2626 !important;
+    color: #fff !important;
+    margin-top: 16px !important;
+    border-top: 2px solid rgba(255,255,255,0.2) !important;
+    font-weight: 600 !important;
+  }
+
+  .navbar-logout-btn:hover {
+    background: #b91c1c !important;
+  }
+
+  /* Ocultar elementos cuando menú está abierto */
+  .navbar-fecha-hora-hidden,
+  .navbar-modo-btn-hidden {
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  .navbar-fecha-hora {
+    font-size: 0.9rem;
+    margin-right: 16px;
+  }
+
+  .navbar-modo-btn {
+    padding: 6px 12px;
+    font-size: 0.9rem;
+    margin-right: 0;
+  }
+
+  /* Overlay para cerrar menú */
+  .navbar-overlay {
+    display: block;
+    position: fixed;
+    top: 80px;
+    left: 0;
+    width: 100vw;
+    height: calc(100vh - 80px);
+    background: rgba(0,0,0,0.5);
+    z-index: 9998;
+  }
+}
+
+/* Estilos para tablets */
+@media (max-width: 1024px) and (min-width: 769px) {
+  .navbar {
+    padding: 0 24px;
+    z-index: 100;
+  }
+
+  .navbar-logo-img {
+    width: 80px;
+    height: 80px;
+    margin-right: 40px;
+  }
+
+  .navbar-fecha-hora {
+    margin-right: 24px;
+    font-size: 1rem;
+  }
+
+  .navbar-modo-btn {
+    margin-right: 16px;
+  }
+}
+
+/* Estilos específicos para desktop (pantallas grandes) */
+@media (min-width: 769px) {
+  .navbar {
+    position: sticky !important;
+    top: 0 !important;
+    z-index: 100 !important;
+    background: #1e293b !important;
+    box-shadow: 0 2px 16px #0002 !important;
+  }
+
+  .navbar-list {
+    display: flex !important;
+    flex-direction: row !important;
+    background: transparent !important;
+    box-shadow: none !important;
+    transform: none !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+    width: auto !important;
+    max-width: 100% !important;
+    overflow: visible !important;
+  }
+
+  .navbar-list li {
+    padding: 10px 22px !important;
+    margin: 0 !important;
+    border-bottom: none !important;
+    border-radius: 8px !important;
+  }
+
+  .hamburger-btn {
+    display: none !important;
+  }
+
+  .navbar-overlay {
+    display: none !important;
+  }
 }
 
 /* navbar overlay local eliminado - usamos overlay global */
@@ -36,10 +273,10 @@
 /* overlay global que cubre todo menos la barra del navbar */
 .global-overlay {
   position: fixed;
-  top: 64px; /* dejar visible la barra del navbar (ajustable) */
+  top: 100px; /* ajustado para navbar */
   left: 0;
   width: 100vw;
-  height: calc(100vh - 64px);
+  height: calc(100vh - 100px);
   background: rgba(255,255,255,0.95);
   display: flex;
   align-items: center;
@@ -47,6 +284,15 @@
   z-index: 40;
   pointer-events: none; /* no bloquear la barra */
 }
+
+/* Responsive para overlay global */
+@media (max-width: 768px) {
+  .global-overlay {
+    top: 80px;
+    height: calc(100vh - 80px);
+  }
+}
+
 .global-overlay-img {
   width: 620px;
   max-width: 90vw;
@@ -66,6 +312,7 @@
   align-items: center;
   justify-content: center;
 }
+
 .carousel-move {
   position: absolute;
   width: 520px;
@@ -78,10 +325,33 @@
   will-change: transform, opacity;
 }
 
+/* Responsive para carrusel */
+@media (max-width: 900px) {
+  .carousel-wrap { 
+    height: 220px; 
+    width: 90vw;
+  }
+  .carousel-move { 
+    width: 320px; 
+    height: 200px; 
+  }
+}
+
+@media (max-width: 600px) {
+  .carousel-wrap { 
+    height: 180px; 
+  }
+  .carousel-move { 
+    width: 260px; 
+    height: 160px; 
+  }
+}
+
 /* Modo oscuro: mostrar overlay con fondo oscuro translúcido y mejorar contraste de imágenes */
 body.dark .global-overlay {
   background: rgba(6, 10, 15, 0.78);
 }
+
 body.dark .carousel-move {
   /* leve incremento de brillo y sombra para que las imágenes resalten sobre fondo oscuro */
   filter: brightness(1.02) saturate(1.05) drop-shadow(0 8px 28px rgba(0,0,0,0.6));
@@ -96,11 +366,6 @@ body.dark .carousel-move {
   100% { transform: translateX(220%) scale(0.76) rotateY(-12deg); opacity: 0; }
 }
 
-@media (max-width: 900px) {
-  .carousel-wrap { height: 220px; }
-  .carousel-move { width: 320px; height: 200px; }
-}
-
 .navbar-list li {
   display: flex;
   align-items: center;
@@ -111,12 +376,26 @@ body.dark .carousel-move {
   font-weight: 500;
   transition: background 0.18s, color 0.18s, box-shadow 0.18s;
   margin-right: 6px;
+  white-space: nowrap;
+  flex-shrink: 0;
+  min-width: 0;
 }
 
-.navbar-list li.active, .navbar-list li:hover {
+.navbar-list li.active, 
+.navbar-list li:hover {
   background: #2563eb;
   color: #fff;
   box-shadow: 0 2px 8px #2563eb33;
+}
+
+/* Responsive para items del menú */
+@media (max-width: 768px) {
+  .navbar-list li {
+    font-size: 1rem;
+    padding: 16px 24px;
+    margin-right: 0;
+    border-radius: 0;
+  }
 }
 
 /* efecto para el título principal */
@@ -125,6 +404,23 @@ body.dark .carousel-move {
   display: block;
   transition: transform 0.28s ease, text-shadow 0.28s ease;
   animation: titleGlow 6s ease-in-out infinite;
+}
+
+/* Responsive para título */
+@media (max-width: 768px) {
+  .app-title {
+    font-size: 1.8rem !important;
+    margin: 8px 0 6px 0 !important;
+    letter-spacing: 1px !important;
+  }
+}
+
+@media (max-width: 480px) {
+  .app-title {
+    font-size: 1.5rem !important;
+    margin: 6px 0 4px 0 !important;
+    letter-spacing: 0.5px !important;
+  }
 }
 
 @keyframes titleGlow {
@@ -152,25 +448,13 @@ body.dark .app-title {
   margin-right: 10px;
   width: 24px;
   text-align: center;
+  flex-shrink: 0;
 }
 
-@media (max-width: 700px) {
-  .navbar {
-    flex-direction: column;
-    height: auto;
-    padding: 0 8px;
-  }
-  .navbar-logo {
-    margin-bottom: 8px;
-    margin-right: 0;
-  }
-  .navbar-list {
-    flex-direction: column;
-    gap: 0;
-  }
-  .navbar-list li {
-    margin: 0 0 4px 0;
-    width: 100%;
-    justify-content: flex-start;
+/* Responsive para iconos */
+@media (max-width: 768px) {
+  .navbar-icon {
+    margin-right: 12px;
+    width: 26px;
   }
 }

@@ -22,7 +22,7 @@ const defaultConfig = {
 };
 
 
-function Configuracion({ onConfigChange, registros = [] }) {
+function Configuracion({ onConfigChange, registros = [], modoOscuro, onToggleModo, onLogout }) {
   const [config, setConfig] = useState(defaultConfig);
 
   useEffect(() => {
@@ -248,6 +248,79 @@ function Configuracion({ onConfigChange, registros = [] }) {
               <img src={printIcon} alt="Imprimir" style={{ width: 30, height: 30 }} />
             </button>
           </div>
+          
+          {/* Controles adicionales solo en escritorio */}
+          {window.innerWidth > 768 && (
+            <div style={{ 
+              display: 'flex', 
+              flexDirection: 'column', 
+              gap: 16, 
+              marginTop: 24,
+              padding: '24px',
+              border: '2px solid #e5e7eb',
+              borderRadius: '12px',
+              background: 'rgba(249, 250, 251, 0.5)',
+              width: '100%',
+              maxWidth: '400px'
+            }}>
+              <h3 style={{ 
+                margin: 0, 
+                color: 'var(--color-primary)', 
+                fontSize: '1.1rem',
+                fontWeight: 600,
+                textAlign: 'center'
+              }}>
+                Controles del Sistema
+              </h3>
+              
+              <button
+                type="button"
+                onClick={onToggleModo}
+                style={{
+                  padding: '12px 24px',
+                  borderRadius: 8,
+                  border: '2px solid #2563eb',
+                  background: modoOscuro ? '#fff' : '#1e293b',
+                  color: modoOscuro ? '#1e293b' : '#fff',
+                  fontWeight: 700,
+                  fontSize: '1rem',
+                  cursor: 'pointer',
+                  transition: 'all 0.2s',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  gap: 8
+                }}
+                title={modoOscuro ? 'Cambiar a modo claro' : 'Cambiar a modo oscuro'}
+              >
+                {modoOscuro ? '🌙 Modo Oscuro' : '☀️ Modo Claro'}
+              </button>
+              
+              <button
+                type="button"
+                onClick={onLogout}
+                style={{
+                  padding: '12px 24px',
+                  borderRadius: 8,
+                  border: 'none',
+                  background: 'linear-gradient(90deg, #dc2626 0%, #b91c1c 100%)',
+                  color: '#fff',
+                  fontWeight: 700,
+                  fontSize: '1rem',
+                  cursor: 'pointer',
+                  transition: 'all 0.2s',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  gap: 8,
+                  boxShadow: '0 2px 8px rgba(220, 38, 38, 0.2)'
+                }}
+                title="Cerrar sesión"
+              >
+                🚪 Cerrar Sesión
+              </button>
+            </div>
+          )}
         </div>
       </form>
     </section>

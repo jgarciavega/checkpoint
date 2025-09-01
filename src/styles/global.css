@@ -87,6 +87,20 @@ body {
   transition: background 0.3s, color 0.3s, font-size 0.3s;
 }
 
+/* Espaciado para navbar fijo solo en móvil */
+@media (max-width: 768px) {
+  body {
+    padding-top: 80px !important;
+  }
+}
+
+/* Asegurar que en desktop no hay padding extra */
+@media (min-width: 769px) {
+  body {
+    padding-top: 0 !important;
+  }
+}
+
 body.dark {
   background: linear-gradient(135deg, #181f2a 0%, #232946 100%);
   color: #f4f6fb;
