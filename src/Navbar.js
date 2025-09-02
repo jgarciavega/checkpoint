@@ -7,7 +7,7 @@ import configIcon from './assets/config.png';
 // Eliminar la referencia al ícono qr-generator.png
 import './Navbar.css';
 
-const Navbar = ({ active, onSelect, modoOscuro, onToggleModo, fechaHora, onLogout }) => {
+const Navbar = ({ active, onSelect, modoOscuro, onToggleModo, fechaHora }) => {
   const [menuAbierto, setMenuAbierto] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
   
@@ -16,7 +16,7 @@ const Navbar = ({ active, onSelect, modoOscuro, onToggleModo, fechaHora, onLogou
     { key: 'scanner', label: 'Escáner', icon: qrIcon },
     { key: 'form', label: 'Formulario', icon: formIcon },
     { key: 'config', label: 'Configuración', icon: configIcon },
-    { key: 'generarQR', label: 'Generar QR', icon: qrIcon },
+    { key: 'modoOscuro', label: modoOscuro ? 'Modo Claro' : 'Modo Oscuro', icon: configIcon },
   ];
 
   // Elementos para escritorio (sin scanner, incluye bitácora)
@@ -24,8 +24,8 @@ const Navbar = ({ active, onSelect, modoOscuro, onToggleModo, fechaHora, onLogou
     { key: 'form', label: 'Formulario', icon: formIcon },
     { key: 'bitacora', label: 'Bitácora', icon: bitacoraIcon },
     { key: 'config', label: 'Configuración', icon: configIcon },
-    { key: 'generarQR', label: 'Generar QR', icon: qrIcon },
-  ];
+    { key: 'generarQR', label: 'Generar QR', icon: qrIcon }, // Agregado Generar QR al menú de escritorio
+  ]; // Eliminar el botón de modo oscuro/claro en escritorio y web
 
   // Efecto para detectar cambios de tamaño de pantalla
   useEffect(() => {
@@ -51,8 +51,16 @@ const Navbar = ({ active, onSelect, modoOscuro, onToggleModo, fechaHora, onLogou
   const items = isMobile ? mobileItems : desktopItems;
 
   const handleItemClick = (key) => {
+    if (key === 'modoOscuro') {
+      onToggleModo(); // Cambiar el estado de modo oscuro/claro
+    }
     onSelect(key);
     setMenuAbierto(false); // Cerrar menú móvil al seleccionar
+  };
+
+  const handleToggleModo = () => {
+    onToggleModo(); // Cambiar el estado de modo oscuro/claro
+    setMenuAbierto(false); // Cerrar el menú después de cambiar el modo
   };
 
   const toggleMenu = () => {
@@ -103,42 +111,12 @@ const Navbar = ({ active, onSelect, modoOscuro, onToggleModo, fechaHora, onLogou
             <span className="navbar-label">{item.label}</span>
           </li>
         ))}
-        
-        {/* Botón cerrar sesión - solo visible en menú móvil */}
-        <li 
-          className="navbar-logout-btn"
-          onClick={() => {
-            onLogout();
-            setMenuAbierto(false);
-          }}
-        >
-          <span className="navbar-icon">
-            🚪
-          </span>
-          <span className="navbar-label">Cerrar Sesión</span>
-        </li>
       </ul>
 
       {/* Botón modo oscuro/claro - solo en móvil */}
       {isMobile && (
-        <button
-          className={`navbar-modo-btn ${menuAbierto ? 'navbar-modo-btn-hidden' : ''}`}
-          onClick={onToggleModo}
-          style={{
-            background: modoOscuro ? '#fff' : '#1e293b',
-            color: modoOscuro ? '#1e293b' : '#fff',
-            border: '1.5px solid #2563eb',
-            borderRadius: 8,
-            padding: '7px 18px',
-            fontWeight: 700,
-            fontSize: '1.01rem',
-            cursor: 'pointer',
-            transition: 'background 0.18s, color 0.18s',
-          }}
-          title={modoOscuro ? 'Cambiar a modo claro' : 'Cambiar a modo oscuro'}
-        >
-          {modoOscuro ? '🌙 Oscuro' : '☀️ Claro'}
-        </button>
+        // Eliminar el botón de modo oscuro/claro fuera del menú
+        null
       )}
 
       {/* Overlay para cerrar menú móvil al tocar fuera - solo en móvil */}

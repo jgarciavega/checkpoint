@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import emailIcon from './assets/email (1).png';
 import excelIcon from './assets/excel.png';
@@ -14,12 +13,10 @@ import autoTable from 'jspdf-autotable';
 
 
 const defaultConfig = {
-  modoOscuro: 'auto',
   tamanoTexto: 'normal',
   correo: '',
   whatsapp: '',
-  formatoRegistro: 'completo',
-};
+}; // Eliminar formatoRegistro del objeto de configuración predeterminado
 
 
 function Configuracion({ onConfigChange, registros = [], modoOscuro, onToggleModo, onLogout }) {
@@ -29,6 +26,14 @@ function Configuracion({ onConfigChange, registros = [], modoOscuro, onToggleMod
     const saved = localStorage.getItem('configuracionApp');
     if (saved) setConfig(JSON.parse(saved));
   }, []);
+
+  useEffect(() => {
+    // Aplicar el tamaño de texto al cargar la configuración inicial
+    document.documentElement.style.setProperty('--font-size',
+      config.tamanoTexto === 'grande' ? '1.15em' :
+      config.tamanoTexto === 'extra' ? '1.3em' : '1em'
+    );
+  }, [config.tamanoTexto]);
 
   const handleChange = e => {
     const { name, value } = e.target;
@@ -40,18 +45,25 @@ function Configuracion({ onConfigChange, registros = [], modoOscuro, onToggleMod
     });
   };
 
+  const handleTextSizeChange = (e) => {
+    const { value } = e.target;
+    setConfig(prev => {
+      const updated = { ...prev, tamanoTexto: value };
+      localStorage.setItem('configuracionApp', JSON.stringify(updated));
+      if (onConfigChange) onConfigChange(updated);
+      return updated;
+    });
+
+    // Aplicar el tamaño de texto a toda la aplicación
+    document.documentElement.style.setProperty('--font-size',
+      value === 'grande' ? '1.15em' :
+      value === 'extra' ? '1.3em' : '1em'
+    );
+  };
+
   // Exportar a Excel
   const exportarExcel = () => {
-    const formato = config.formatoRegistro || 'completo';
-    const camposReducido = [
-      { label: 'Fecha', key: 'fecha' },
-      { label: 'Tipo de Unidad', key: 'tipoUnidad' },
-      { label: 'Número de Unidad', key: 'numeroUnidad' },
-      { label: 'Conductor', key: 'conductor' },
-      { label: 'Movimiento', key: 'movimiento' },
-      { label: 'Folio', key: 'folio' },
-    ];
-    const camposCompleto = [
+    const campos = [
       { label: 'Fecha', key: 'fecha' },
       { label: 'Tipo de Unidad', key: 'tipoUnidad' },
       { label: 'Número de Unidad', key: 'numeroUnidad' },
@@ -64,8 +76,7 @@ function Configuracion({ onConfigChange, registros = [], modoOscuro, onToggleMod
       { label: 'Movimiento', key: 'movimiento' },
       { label: 'Folio', key: 'folio' },
     ];
-    const campos = formato === 'reducido' ? camposReducido : camposCompleto;
-  const data = registros.map(r => {
+    const data = registros.map(r => {
       const obj = {};
       campos.forEach(c => { obj[c.label] = r[c.key] || ''; });
       return obj;
@@ -133,7 +144,7 @@ function Configuracion({ onConfigChange, registros = [], modoOscuro, onToggleMod
     window.open(`https://wa.me/${numero}?text=${mensaje}`);
   };
 
-  // Imprimir solo la bitácora con los campos actuales
+  // Imprimir solo la bitácora with los campos actuales
   const imprimirBitacora = () => {
     const formato = config.formatoRegistro || 'completo';
     const camposReducido = [
@@ -200,22 +211,6 @@ function Configuracion({ onConfigChange, registros = [], modoOscuro, onToggleMod
       <h2 style={{ color: 'var(--color-primary)', marginBottom: 16, fontWeight: 700 }}>Configuración</h2>
       <form>
         <label style={{ color: 'var(--color-text)', fontWeight: 500 }}>
-          Modo oscuro:
-          <select className="select" name="modoOscuro" value={config.modoOscuro} onChange={handleChange}>
-            <option value="auto">Automático</option>
-            <option value="claro">Claro</option>
-            <option value="oscuro">Oscuro</option>
-          </select>
-        </label>
-        <label style={{ color: 'var(--color-text)', fontWeight: 500 }}>
-          Tamaño de texto:
-          <select className="select" name="tamanoTexto" value={config.tamanoTexto} onChange={handleChange}>
-            <option value="normal">Normal</option>
-            <option value="grande">Grande</option>
-            <option value="extra">Extra grande</option>
-          </select>
-        </label>
-        <label style={{ color: 'var(--color-text)', fontWeight: 500 }}>
           Correo para notificaciones:
           <input className="input" name="correo" type="email" placeholder="correo@ejemplo.com" value={config.correo} onChange={handleChange} />
         </label>
@@ -224,31 +219,14 @@ function Configuracion({ onConfigChange, registros = [], modoOscuro, onToggleMod
           <input className="input" name="whatsapp" type="tel" placeholder="+52 612 123 4567" value={config.whatsapp} onChange={handleChange} />
         </label>
         <label style={{ color: 'var(--color-text)', fontWeight: 500 }}>
-          Formato de registro:
-          <select className="select" name="formatoRegistro" value={config.formatoRegistro} onChange={handleChange}>
-            <option value="completo">Completo</option>
-            <option value="reducido">Reducido</option>
+          Tamaño de texto:
+          <select className="select" name="tamanoTexto" value={config.tamanoTexto} onChange={handleTextSizeChange}>
+            <option value="normal">Normal</option>
+            <option value="grande">Grande</option>
+            <option value="extra">Extra grande</option>
           </select>
         </label>
         <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 18, marginTop: 24 }}>
-          <div style={{ display: 'flex', gap: 28, justifyContent: 'center', marginBottom: 10 }}>
-            <button className="btn" type="button" style={{ background: '#2563eb', borderRadius: '50%', width: 54, height: 54, display: 'flex', alignItems: 'center', justifyContent: 'center', boxShadow: '0 2px 8px 0 rgba(37,99,235,0.10)', padding: 0 }} onClick={enviarCorreo} title="Enviar por correo">
-              <img src={emailIcon} alt="Correo" style={{ width: 30, height: 30 }} />
-            </button>
-            <button className="btn" type="button" style={{ background: '#25d366', borderRadius: '50%', width: 54, height: 54, display: 'flex', alignItems: 'center', justifyContent: 'center', boxShadow: '0 2px 8px 0 rgba(37,99,235,0.10)', padding: 0 }} onClick={enviarWhatsApp} title="Enviar por WhatsApp">
-              <img src={whatsappIcon} alt="WhatsApp" style={{ width: 30, height: 30 }} />
-            </button>
-            <button className="btn" type="button" style={{ background: '#22c55e', borderRadius: '50%', width: 54, height: 54, display: 'flex', alignItems: 'center', justifyContent: 'center', boxShadow: '0 2px 8px 0 rgba(37,99,235,0.10)', padding: 0 }} onClick={exportarExcel} title="Exportar a Excel">
-              <img src={excelIcon} alt="Excel" style={{ width: 30, height: 30 }} />
-            </button>
-            <button className="btn" type="button" style={{ background: '#e11d48', borderRadius: '50%', width: 54, height: 54, display: 'flex', alignItems: 'center', justifyContent: 'center', boxShadow: '0 2px 8px 0 rgba(37,99,235,0.10)', padding: 0 }} onClick={exportarPDF} title="Exportar a PDF">
-              <img src={pdfIcon} alt="PDF" style={{ width: 30, height: 30 }} />
-            </button>
-            <button className="btn" type="button" style={{ background: '#444', borderRadius: '50%', width: 54, height: 54, display: 'flex', alignItems: 'center', justifyContent: 'center', boxShadow: '0 2px 8px 0 rgba(37,99,235,0.10)', padding: 0 }} onClick={imprimirBitacora} title="Imprimir Bitácora">
-              <img src={printIcon} alt="Imprimir" style={{ width: 30, height: 30 }} />
-            </button>
-          </div>
-          
           {/* Controles adicionales solo en escritorio */}
           {window.innerWidth > 768 && (
             <div style={{ 
@@ -321,6 +299,25 @@ function Configuracion({ onConfigChange, registros = [], modoOscuro, onToggleMod
               </button>
             </div>
           )}
+
+          {/* Iconos de acciones */}
+          <div style={{ display: 'flex', gap: 28, justifyContent: 'center', marginBottom: 10 }}>
+            <button className="btn" type="button" style={{ background: '#2563eb', borderRadius: '50%', width: 54, height: 54, display: 'flex', alignItems: 'center', justifyContent: 'center', boxShadow: '0 2px 8px 0 rgba(37,99,235,0.10)', padding: 0 }} onClick={enviarCorreo} title="Enviar por correo">
+              <img src={emailIcon} alt="Correo" style={{ width: 30, height: 30 }} />
+            </button>
+            <button className="btn" type="button" style={{ background: '#25d366', borderRadius: '50%', width: 54, height: 54, display: 'flex', alignItems: 'center', justifyContent: 'center', boxShadow: '0 2px 8px 0 rgba(37,99,235,0.10)', padding: 0 }} onClick={enviarWhatsApp} title="Enviar por WhatsApp">
+              <img src={whatsappIcon} alt="WhatsApp" style={{ width: 30, height: 30 }} />
+            </button>
+            <button className="btn" type="button" style={{ background: '#22c55e', borderRadius: '50%', width: 54, height: 54, display: 'flex', alignItems: 'center', justifyContent: 'center', boxShadow: '0 2px 8px 0 rgba(37,99,235,0.10)', padding: 0 }} onClick={exportarExcel} title="Exportar a Excel">
+              <img src={excelIcon} alt="Excel" style={{ width: 30, height: 30 }} />
+            </button>
+            <button className="btn" type="button" style={{ background: '#e11d48', borderRadius: '50%', width: 54, height: 54, display: 'flex', alignItems: 'center', justifyContent: 'center', boxShadow: '0 2px 8px 0 rgba(37,99,235,0.10)', padding: 0 }} onClick={exportarPDF} title="Exportar a PDF">
+              <img src={pdfIcon} alt="PDF" style={{ width: 30, height: 30 }} />
+            </button>
+            <button className="btn" type="button" style={{ background: '#444', borderRadius: '50%', width: 54, height: 54, display: 'flex', alignItems: 'center', justifyContent: 'center', boxShadow: '0 2px 8px 0 rgba(37,99,235,0.10)', padding: 0 }} onClick={imprimirBitacora} title="Imprimir Bitácora">
+              <img src={printIcon} alt="Imprimir" style={{ width: 30, height: 30 }} />
+            </button>
+          </div>
         </div>
       </form>
     </section>
