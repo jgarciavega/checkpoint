@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import logoImg from './assets/Api.png';
-import qrIcon from './assets/qr.png';
+import qrIcon from './assets/QR.png';
 import formIcon from './assets/foam.png';
 import bitacoraIcon from './assets/bitacora.png';
 import configIcon from './assets/config.png';
+// Eliminar la referencia al ícono qr-generator.png
 import './Navbar.css';
 
 const Navbar = ({ active, onSelect, modoOscuro, onToggleModo, fechaHora, onLogout }) => {
@@ -15,6 +16,7 @@ const Navbar = ({ active, onSelect, modoOscuro, onToggleModo, fechaHora, onLogou
     { key: 'scanner', label: 'Escáner', icon: qrIcon },
     { key: 'form', label: 'Formulario', icon: formIcon },
     { key: 'config', label: 'Configuración', icon: configIcon },
+    { key: 'generarQR', label: 'Generar QR', icon: qrIcon },
   ];
 
   // Elementos para escritorio (sin scanner, incluye bitácora)
@@ -22,6 +24,7 @@ const Navbar = ({ active, onSelect, modoOscuro, onToggleModo, fechaHora, onLogou
     { key: 'form', label: 'Formulario', icon: formIcon },
     { key: 'bitacora', label: 'Bitácora', icon: bitacoraIcon },
     { key: 'config', label: 'Configuración', icon: configIcon },
+    { key: 'generarQR', label: 'Generar QR', icon: qrIcon },
   ];
 
   // Efecto para detectar cambios de tamaño de pantalla

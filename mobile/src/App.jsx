@@ -13,7 +13,7 @@ function App() {
     setError(null);
     try {
       // Cambia la IP por la de tu PC si pruebas desde el móvil
-      const res = await fetch('http://localhost:3001/api/registro', {
+      const res = await fetch('http://localhost:3000/api/registro', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ qr: data, fecha: new Date().toISOString() })

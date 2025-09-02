@@ -1,8 +1,10 @@
-
-
 import React, { useState, useEffect } from 'react';
-import logoLight from './assets/port.png';
+import logoLight from './assets/Api.png';
 import logoDark from './assets/dark2.png';
+import port3 from './assets/port3.png';
+import port2 from './assets/port2.png';
+import port1 from './assets/port1.png';
+import modoTran from './assets/modo-tran.png';
 
 function Header({ modoOscuro }) {
   const [screenSize, setScreenSize] = useState('desktop');
@@ -81,135 +83,138 @@ function Header({ modoOscuro }) {
   const styles = getResponsiveStyles();
 
   return (
-    <header 
-      className="header" 
-      style={{ 
-        display: 'flex', 
-        flexDirection: styles.container.flexDirection || 'column',
-        alignItems: 'center', 
-        justifyContent: 'center', 
-        minHeight: styles.container.minHeight,
-        padding: styles.container.padding,
-        gap: styles.container.gap || 0,
-        width: '100%',
-        maxWidth: '100vw',
-        overflow: 'hidden'
-      }}
-    >
-      <div 
+    <div style={{ backgroundColor: modoOscuro ? '#483D8B' : 'transparent', width: '100%', height: '100%' }}>
+      <header 
+        className="header" 
         style={{ 
-          width: '100%', 
           display: 'flex', 
+          flexDirection: styles.container.flexDirection || 'column',
           alignItems: 'center', 
-          justifyContent: 'space-between', 
-          position: 'relative', 
+          justifyContent: 'center', 
           minHeight: styles.container.minHeight,
-          flexDirection: screenSize === 'mobile' ? 'column' : 'row',
-          gap: screenSize === 'mobile' ? 8 : 16
+          padding: styles.container.padding,
+          gap: styles.container.gap || 0,
+          width: '100%',
+          maxWidth: '100vw',
+          overflow: 'hidden',
+          backgroundColor: modoOscuro ? '#36454F' : 'transparent' // Cambiar fondo a Charcoal Blue en modo oscuro
         }}
       >
-        {/* Logo izquierdo */}
-        <img
-          src={modoOscuro ? logoDark : logoLight}
-          alt="Logo API Izquierdo"
-          style={{
-            width: styles.logo.width,
-            height: styles.logo.height,
-            objectFit: 'contain',
-            background: 'none',
-            borderRadius: 0,
-            boxShadow: 'none',
-            zIndex: 5,
-            mixBlendMode: 'normal',
-            filter: 'none',
-            transition: 'all 0.3s ease',
-            order: screenSize === 'mobile' ? 1 : 0
-          }}
-        />
-        
-        {/* Título central */}
-        <span 
-          className="header-title" 
+        <div 
           style={{ 
-            fontWeight: 700, 
-            fontSize: styles.title.fontSize,
-            letterSpacing: styles.title.letterSpacing,
-            textAlign: 'center',
-            flex: 1,
-            textTransform: 'uppercase',
-            lineHeight: styles.title.lineHeight || 1,
-            transition: 'all 0.3s ease',
-            color: modoOscuro ? '#e6eef8' : '#0f172a',
-            textShadow: modoOscuro 
-              ? '0 2px 8px rgba(0,0,0,0.3)' 
-              : '0 1px 4px rgba(0,0,0,0.1)',
-            wordBreak: screenSize === 'mobile' ? 'break-word' : 'normal',
-            hyphens: screenSize === 'mobile' ? 'auto' : 'none',
-            order: screenSize === 'mobile' ? 2 : 1
+            width: '100%', 
+            display: 'flex', 
+            alignItems: 'center', 
+            justifyContent: 'space-between', 
+            position: 'relative', 
+            minHeight: styles.container.minHeight,
+            flexDirection: screenSize === 'mobile' ? 'column' : 'row',
+            gap: screenSize === 'mobile' ? 8 : 16
           }}
         >
-          CONTROL DE ACCESO
-        </span>
+          {/* Logo izquierdo */}
+          <img
+            src={logoLight} // Usar siempre Api.png
+            alt="Logo API Izquierdo"
+            style={{
+              width: styles.logo.width,
+              height: styles.logo.height,
+              objectFit: 'contain',
+              background: 'none',
+              borderRadius: 0,
+              boxShadow: 'none',
+              zIndex: 5,
+              mixBlendMode: 'normal',
+              filter: 'none',
+              transition: 'all 0.3s ease',
+              order: screenSize === 'mobile' ? 1 : 0
+            }}
+          />
+          
+          {/* Título central */}
+          <span 
+            className="header-title" 
+            style={{ 
+              fontWeight: 700, 
+              fontSize: styles.title.fontSize,
+              letterSpacing: styles.title.letterSpacing,
+              textAlign: 'center',
+              flex: 1,
+              textTransform: 'uppercase',
+              lineHeight: styles.title.lineHeight || 1,
+              transition: 'all 0.3s ease',
+              color: modoOscuro ? '#e6eef8' : '#0f172a',
+              textShadow: modoOscuro 
+                ? '0 2px 8px rgba(0,0,0,0.3)' 
+                : '0 1px 4px rgba(0,0,0,0.1)',
+              wordBreak: screenSize === 'mobile' ? 'break-word' : 'normal',
+              hyphens: screenSize === 'mobile' ? 'auto' : 'none',
+              order: screenSize === 'mobile' ? 2 : 1
+            }}
+          >
+            CONTROL DE ACCESO
+          </span>
+          
+          {/* Logo derecho */}
+          <img
+            src={modoTran} // Usar siempre modo-tran.png
+            alt="Logo API Derecho"
+            style={{
+              width: styles.logo.width,
+              height: styles.logo.height,
+              objectFit: 'contain',
+              background: 'none',
+              borderRadius: 0,
+              boxShadow: 'none',
+              zIndex: 5,
+              mixBlendMode: 'normal',
+              filter: 'none',
+              transition: 'all 0.3s ease',
+              order: screenSize === 'mobile' ? 3 : 2,
+              display: screenSize === 'mobile' ? 'none' : 'block' // Ocultar segundo logo en móvil
+            }}
+          />
+        </div>
         
-        {/* Logo derecho */}
-        <img
-          src={modoOscuro ? logoDark : logoLight}
-          alt="Logo API Derecho"
-          style={{
-            width: styles.logo.width,
-            height: styles.logo.height,
-            objectFit: 'contain',
-            background: 'none',
-            borderRadius: 0,
-            boxShadow: 'none',
-            zIndex: 5,
-            mixBlendMode: 'normal',
-            filter: 'none',
-            transition: 'all 0.3s ease',
-            order: screenSize === 'mobile' ? 3 : 2,
-            display: screenSize === 'mobile' ? 'none' : 'block' // Ocultar segundo logo en móvil
-          }}
-        />
-      </div>
-      
-      {/* CSS responsive adicional */}
-      <style>{`
-        @media (max-width: 479px) {
-          .header-title {
-            max-width: 90vw;
-            word-wrap: break-word;
-          }
-        }
-        
-        @media (max-width: 360px) {
-          .header-title {
-            font-size: 1rem !important;
-            letter-spacing: 0.3px !important;
+        {/* CSS responsive adicional */}
+        <style>{`
+          @media (max-width: 479px) {
+            .header-title {
+              max-width: 90vw;
+              word-wrap: break-word;
+            }
           }
           
-          .header img {
-            width: 100px !important;
-            height: 60px !important;
-          }
-        }
-        
-        @media (orientation: landscape) and (max-height: 500px) {
-          .header {
-            min-height: 50px !important;
-            padding: 5px 12px !important;
-          }
-          
-          .header img {
-            width: 100px !important;
-            height: 60px !important;
+          @media (max-width: 360px) {
+            .header-title {
+              font-size: 1rem !important;
+              letter-spacing: 0.3px !important;
+            }
+            
+            .header img {
+              width: 100px !important;
+              height: 60px !important;
+            }
           }
           
-          .header-title {
-            font-size: 1.2rem !important;
+          @media (orientation: landscape) and (max-height: 500px) {
+            .header {
+              min-height: 50px !important;
+              padding: 5px 12px !important;
+            }
+            
+            .header img {
+              width: 100px !important;
+              height: 60px !important;
+            }
+            
+            .header-title {
+              font-size: 1.2rem !important;
+            }
           }
-        }
-      `}</style>
-    </header>
+        `}</style>
+      </header>
+    </div>
   );
 }
 
