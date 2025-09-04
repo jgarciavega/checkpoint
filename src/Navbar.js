@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import logoImg from './assets/Api.png';
-import qrIcon from './assets/QR.png';
+import qrIcon from './assets/qr.png'
 import formIcon from './assets/foam.png';
 import bitacoraIcon from './assets/bitacora.png';
 import configIcon from './assets/config.png';

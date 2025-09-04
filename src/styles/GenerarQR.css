@@ -1,0 +1,140 @@
+.qr-generator {
+  padding: 20px;
+  max-width: 800px;
+  margin: auto;
+}
+
+.qr-form {
+  padding: 30px;
+  border: 2px solid #e11d48;
+  border-radius: 15px;
+  background-color: var(--background-card);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  position: relative;
+}
+
+.form-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.form-title {
+  font-weight: bold;
+  font-size: 1.5rem;
+  color: var(--text-color);
+}
+
+.btn-refresh {
+  padding: 10px;
+  border-radius: 80%;
+  background-color: var(--accent-color);
+  color: var(--accent-text);
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.form-body {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  max-width: 800px;
+  margin: auto;
+}
+
+.form-group {
+  flex: 1 1 calc(50% - 10px);
+  min-width: 250px;
+}
+
+.form-label {
+  font-weight: bold;
+  color: var(--text-color);
+  margin-bottom: 5px;
+  display: block;
+}
+
+.form-input,
+.form-select {
+  padding: 12px;
+  border-radius: 8px;
+  border: 1px solid var(--border-color);
+  width: 100%;
+  font-size: 16px;
+  background-color: var(--input-background);
+  color: var(--text-color);
+}
+
+.btn-generate {
+  padding: 12px;
+  border-radius: 8px;
+  background-color: #e11d48;
+  color: white;
+  border: none;
+  cursor: pointer;
+  font-weight: bold;
+  width: 100%;
+  font-size: 16px;
+  transition: background-color 0.2s ease;
+}
+
+.btn-generate:hover {
+  background-color: #be123c;
+}
+
+.qr-result {
+  text-align: center;
+  margin-top: 20px;
+  width: 100%;
+}
+
+.qr-image {
+  width: 300px;
+  height: 300px;
+  margin: 0 auto;
+}
+
+.btn-print {
+  padding: 12px;
+  border-radius: 8px;
+  background-color: var(--success-color);
+  color: white;
+  border: none;
+  cursor: pointer;
+  font-weight: bold;
+  margin-top: 10px;
+  width: 100%;
+  font-size: 16px;
+}
+
+/* Dark mode styles */
+body.dark .qr-form {
+  background-color: var(--dark-background-card);
+  border-color: #e11d48;
+}
+
+body.dark .form-label {
+  color: var(--dark-text-color);
+}
+
+body.dark .form-input,
+body.dark .form-select {
+  background-color: var(--dark-input-background);
+  border-color: var(--dark-border-color);
+  color: var(--dark-text-color);
+}
+
+/* Mobile styles */
+@media (max-width: 768px) {
+  .qr-generator {
+    padding: 10px;
+  }
+
+  .form-group {
+    flex: 1 1 100%;
+  }
+}

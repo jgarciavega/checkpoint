@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import QRCode from 'qrcode';
+import './styles/GenerarQR.css';
 
 function GenerarQR() {
   const [formData, setFormData] = useState({
@@ -12,7 +13,7 @@ function GenerarQR() {
     placas: '',
     anio: '',
     poliza: '',
-    cantidadPasajeros: '', // Nuevo campo agregado
+    cantidadPasajeros: '',
   });
   const [qrCode, setQrCode] = useState('');
 
@@ -50,44 +51,49 @@ function GenerarQR() {
     printWindow.print();
   };
 
+  const handleReset = () => {
+    setFormData({
+      tipo: '',
+      unidad_id: '',
+      conductor: '',
+      empresa: '',
+      modelo: '',
+      numeroSerie: '',
+      placas: '',
+      anio: '',
+      poliza: '',
+      cantidadPasajeros: '',
+    });
+    setQrCode('');
+  };
+
   // Deshabilitar módulo en dispositivos móviles
   if (window.innerWidth <= 768) {
     return <div>Esta funcionalidad no está disponible en dispositivos móviles.</div>;
   }
 
   return (
-    <div style={{ padding: '20px', maxWidth: '400px', margin: 'auto' }}>
-      <h2>Generar Código QR</h2>
-      <form style={{ padding: '20px', border: '1px solid #ddd', borderRadius: '10px', backgroundColor: '#fff', boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)', position: 'relative' }}>
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
-          <h2 style={{ fontWeight: 'bold', fontSize: '1.5rem', color: '#333' }}>Información de la Unidad</h2>
+    <div className="qr-generator">
+      <div className="qr-form">
+        <div className="form-header">
+          <h2 className="form-title">Información de la Unidad</h2>
           <button
             type="button"
-            onClick={() => setFormData({
-              tipo: '',
-              unidad_id: '',
-              conductor: '',
-              empresa: '',
-              modelo: '',
-              numeroSerie: '',
-              placas: '',
-              anio: '',
-              poliza: '',
-              cantidadPasajeros: '',
-            })}
-            style={{ padding: '10px', borderRadius: '80%', backgroundColor: '#cfd72cff', color: '#5721d6ff', border: 'none', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center' }}
+            onClick={handleReset}
+            className="btn-refresh"
           >
-            <img src="./assets/refrech2.png" alt="Refresh" style={{ width: '24px', height: '24px' }} />
+            <img src="./assets/refrech2.png" alt="Refresh" width="24" height="24" />
           </button>
         </div>
-        <div style={{ display: 'flex', flexWrap: 'wrap', gap: '20px', maxWidth: '800px', margin: 'auto', padding: '30px', border: '1px solid #ddd', borderRadius: '15px', backgroundColor: '#ffffff', boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)' }}>
-          <div style={{ flex: '1 1 calc(50% - 20px)', minWidth: '250px' }}>
-            <label style={{ fontWeight: 'bold', color: '#333', marginBottom: '5px', display: 'block' }}>Tipo de Unidad:</label>
+
+        <div className="form-body">
+          <div className="form-group">
+            <label className="form-label">Tipo de Unidad:</label>
             <select
+              className="form-select"
               name="tipo"
               value={formData.tipo}
               onChange={handleChange}
-              style={{ padding: '12px', borderRadius: '8px', border: '1px solid #ccc', width: '100%', fontSize: '16px', backgroundColor: '#f9f9f9' }}
             >
               <option value="">Seleccionar...</option>
               <option value="Automóvil">Automóvil</option>
@@ -96,128 +102,137 @@ function GenerarQR() {
               <option value="Otro">Otro</option>
             </select>
           </div>
-          <div style={{ flex: '1 1 calc(50% - 20px)', minWidth: '250px' }}>
-            <label style={{ fontWeight: 'bold', color: '#333', marginBottom: '5px', display: 'block' }}>Número de Unidad:</label>
+
+          <div className="form-group">
+            <label className="form-label">Número de Unidad:</label>
             <input
               type="text"
+              className="form-input"
               name="unidad_id"
               placeholder="Ej: 1234, ABC-123"
               value={formData.unidad_id}
               onChange={handleChange}
-              style={{ padding: '12px', borderRadius: '8px', border: '1px solid #ccc', width: '100%', fontSize: '16px', backgroundColor: '#f9f9f9' }}
             />
           </div>
-          <div style={{ flex: '1 1 calc(50% - 20px)', minWidth: '250px' }}>
-            <label style={{ fontWeight: 'bold', color: '#333', marginBottom: '5px', display: 'block' }}>Conductor:</label>
+
+          <div className="form-group">
+            <label className="form-label">Conductor:</label>
             <input
               type="text"
+              className="form-input"
               name="conductor"
               placeholder="Nombre completo del conductor"
               value={formData.conductor}
               onChange={handleChange}
-              style={{ padding: '12px', borderRadius: '8px', border: '1px solid #ccc', width: '100%', fontSize: '16px', backgroundColor: '#f9f9f9' }}
             />
           </div>
-          <div style={{ flex: '1 1 calc(50% - 20px)', minWidth: '250px' }}>
-            <label style={{ fontWeight: 'bold', color: '#333', marginBottom: '5px', display: 'block' }}>Empresa:</label>
+
+          <div className="form-group">
+            <label className="form-label">Empresa:</label>
             <input
               type="text"
+              className="form-input"
               name="empresa"
               placeholder="Nombre de la empresa"
               value={formData.empresa}
               onChange={handleChange}
-              style={{ padding: '12px', borderRadius: '8px', border: '1px solid #ccc', width: '100%', fontSize: '16px', backgroundColor: '#f9f9f9' }}
             />
           </div>
-          <div style={{ flex: '1 1 calc(50% - 20px)', minWidth: '250px' }}>
-            <label style={{ fontWeight: 'bold', color: '#333', marginBottom: '5px', display: 'block' }}>Modelo del Vehículo:</label>
+
+          <div className="form-group">
+            <label className="form-label">Modelo del Vehículo:</label>
             <input
               type="text"
+              className="form-input"
               name="modelo"
               placeholder="Ej: Versa 2022"
               value={formData.modelo}
               onChange={handleChange}
-              style={{ padding: '12px', borderRadius: '8px', border: '1px solid #ccc', width: '100%', fontSize: '16px', backgroundColor: '#f9f9f9' }}
             />
           </div>
-          <div style={{ flex: '1 1 calc(50% - 20px)', minWidth: '250px' }}>
-            <label style={{ fontWeight: 'bold', color: '#333', marginBottom: '5px', display: 'block' }}>Número de Serie:</label>
+
+          <div className="form-group">
+            <label className="form-label">Número de Serie:</label>
             <input
               type="text"
+              className="form-input"
               name="numeroSerie"
               placeholder="Ej: 1HGCM82633A123456"
               value={formData.numeroSerie}
               onChange={handleChange}
-              style={{ padding: '12px', borderRadius: '8px', border: '1px solid #ccc', width: '100%', fontSize: '16px', backgroundColor: '#f9f9f9' }}
             />
           </div>
-          <div style={{ flex: '1 1 calc(50% - 20px)', minWidth: '250px' }}>
-            <label style={{ fontWeight: 'bold', color: '#333', marginBottom: '5px', display: 'block' }}>Placas:</label>
+
+          <div className="form-group">
+            <label className="form-label">Placas:</label>
             <input
               type="text"
+              className="form-input"
               name="placas"
               placeholder="Ej: ABC-123-CD"
               value={formData.placas}
               onChange={handleChange}
-              style={{ padding: '12px', borderRadius: '8px', border: '1px solid #ccc', width: '100%', fontSize: '16px', backgroundColor: '#f9f9f9' }}
             />
           </div>
-          <div style={{ flex: '1 1 calc(50% - 20px)', minWidth: '250px' }}>
-            <label style={{ fontWeight: 'bold', color: '#333', marginBottom: '5px', display: 'block' }}>Año del Vehículo:</label>
+
+          <div className="form-group">
+            <label className="form-label">Año del Vehículo:</label>
             <input
               type="text"
+              className="form-input"
               name="anio"
               placeholder="Ej: 2022"
               value={formData.anio}
               onChange={handleChange}
-              style={{ padding: '12px', borderRadius: '8px', border: '1px solid #ccc', width: '100%', fontSize: '16px', backgroundColor: '#f9f9f9' }}
             />
           </div>
-          <div style={{ flex: '1 1 calc(50% - 20px)', minWidth: '250px' }}>
-            <label style={{ fontWeight: 'bold', color: '#333', marginBottom: '5px', display: 'block' }}>Póliza de Aseguranza:</label>
+
+          <div className="form-group">
+            <label className="form-label">Póliza de Aseguranza:</label>
             <input
               type="text"
+              className="form-input"
               name="poliza"
               placeholder="Número de póliza"
               value={formData.poliza}
               onChange={handleChange}
-              style={{ padding: '12px', borderRadius: '8px', border: '1px solid #ccc', width: '100%', fontSize: '16px', backgroundColor: '#f9f9f9' }}
             />
           </div>
-          <div style={{ flex: '1 1 calc(50% - 20px)', minWidth: '250px' }}>
-            <label style={{ fontWeight: 'bold', color: '#333', marginBottom: '5px', display: 'block' }}>Cantidad de Pasajeros:</label>
+
+          <div className="form-group">
+            <label className="form-label">Cantidad de Pasajeros:</label>
             <input
               type="number"
+              className="form-input"
               name="cantidadPasajeros"
               placeholder="Ej: 45"
               value={formData.cantidadPasajeros}
               onChange={handleChange}
-              style={{ padding: '12px', borderRadius: '8px', border: '1px solid #ccc', width: '100%', fontSize: '16px', backgroundColor: '#f9f9f9' }}
             />
           </div>
 
           <button
             type="button"
+            className="btn-generate"
             onClick={generarQR}
-            style={{ padding: '12px', borderRadius: '8px', backgroundColor: '#2563eb', color: '#fff', border: 'none', cursor: 'pointer', fontWeight: 'bold', width: '100%', fontSize: '16px' }}
           >
             Generar QR
           </button>
 
           {qrCode && (
-            <div style={{ textAlign: 'center', marginTop: '20px', width: '100%' }}>
-              <img src={qrCode} alt="Código QR" style={{ width: '300px', height: '300px', margin: '0 auto' }} />
+            <div className="qr-result">
+              <img src={qrCode} alt="Código QR" className="qr-image" />
               <button
                 type="button"
+                className="btn-print"
                 onClick={imprimirQR}
-                style={{ padding: '12px', borderRadius: '8px', backgroundColor: '#10b981', color: '#fff', border: 'none', cursor: 'pointer', fontWeight: 'bold', marginTop: '10px', width: '100%', fontSize: '16px' }}
               >
                 Imprimir QR
               </button>
             </div>
           )}
         </div>
-      </form>
+      </div>
     </div>
   );
 }
