@@ -222,13 +222,15 @@ function GenerarQR() {
           {qrCode && (
             <div className="qr-result">
               <img src={qrCode} alt="Código QR" className="qr-image" />
-              <button
-                type="button"
-                className="btn-print"
-                onClick={imprimirQR}
-              >
-                Imprimir QR
-              </button>
+              <div className="btn-print-container">
+                <button
+                  type="button"
+                  className="btn-print"
+                  onClick={imprimirQR}
+                >
+                  Imprimir QR
+                </button>
+              </div>
             </div>
           )}
         </div>
