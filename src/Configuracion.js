@@ -4,7 +4,8 @@ import excelIcon from './assets/excel.png';
 import pdfIcon from './assets/pdf.png';
 import printIcon from './assets/impresora.png';
 import whatsappIcon from './assets/what.png';
-import * as XLSX from 'xlsx';
+// Se elimina el uso de la librería `xlsx` (SheetJS) por vulnerabilidades conocidas.
+// En su lugar generamos CSV en el cliente (más simple y seguro para exportar la bitácora).
 import { saveAs } from 'file-saver';
 import jsPDF from 'jspdf';
 import autoTable from 'jspdf-autotable';
@@ -61,7 +62,7 @@ function Configuracion({ onConfigChange, registros = [], modoOscuro, onToggleMod
     );
   };
 
-  // Exportar a Excel
+  // Exportar a CSV (sustituye la exportación XLSX). Genera un CSV con BOM para mejor compatibilidad con Excel.
   const exportarExcel = () => {
     const campos = [
       { label: 'Fecha', key: 'fecha' },
@@ -76,16 +77,21 @@ function Configuracion({ onConfigChange, registros = [], modoOscuro, onToggleMod
       { label: 'Movimiento', key: 'movimiento' },
       { label: 'Folio', key: 'folio' },
     ];
-    const data = registros.map(r => {
-      const obj = {};
-      campos.forEach(c => { obj[c.label] = r[c.key] || ''; });
-      return obj;
-    });
-    const ws = XLSX.utils.json_to_sheet(data);
-    const wb = XLSX.utils.book_new();
-    XLSX.utils.book_append_sheet(wb, ws, 'Bitacora');
-    const wbout = XLSX.write(wb, { bookType: 'xlsx', type: 'array' });
-    saveAs(new Blob([wbout], { type: 'application/octet-stream' }), 'bitacora.xlsx');
+
+    // Cabeceras
+    const header = campos.map(c => c.label);
+
+    // Filas
+    const rows = registros.map(r => campos.map(c => {
+      const v = r[c.key] !== undefined && r[c.key] !== null ? String(r[c.key]) : '';
+      // escapamos comillas dobles
+      return `"${v.replace(/"/g, '""')}"`;
+    }));
+
+    const csvLines = [header.join(',')].concat(rows.map(r => r.join(',')));
+    const csv = '\uFEFF' + csvLines.join('\r\n'); // BOM para Excel
+    const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+    saveAs(blob, 'bitacora.csv');
   };
 
   // Exportar a PDF
