@@ -23,7 +23,8 @@ module.exports = {
         use: ['style-loader', 'css-loader'],
       },
       {
-        test: /\.(png|jpg|gif|ico)$/i,
+        // Incluir jpeg (jpe?g) para evitar error al importar archivos .jpeg
+        test: /\.(png|jpe?g|jpg|gif|ico)$/i,
         type: 'asset/resource',
       },
     ],
