@@ -4,6 +4,7 @@ import './styles/AccessForm.css';
 const initialState = {
   tipoUnidad: '',
   numeroUnidad: '',
+  numeroSerie: '',
   conductor: '',
   empresa: '',
   modelo: '',
@@ -124,6 +125,18 @@ function AccessForm({ onSubmit, initialData }) {
             required
             placeholder="Ej: Versa 2022"
             title="Modelo y año del vehículo"
+          />
+        </div>
+
+        <div className="form-group">
+          <label className="form-label">Número de Serie:</label>
+          <input
+            className="form-input"
+            name="numeroSerie"
+            value={form.numeroSerie}
+            onChange={handleChange}
+            placeholder="Ej: 1HGCM82633A123456"
+            title="Número de serie (VIN) del vehículo"
           />
         </div>
 

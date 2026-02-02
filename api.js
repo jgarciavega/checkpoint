@@ -4,28 +4,11 @@
 require('dotenv').config();
 const express = require('express');
 const app = express();
-const mysql = require('mysql2/promise');
+const db = require('./src/db');
 
 const PORT = process.env.API_PORT ? Number(process.env.API_PORT) : 3000; // puedes configurar en .env
 
 app.use(express.json());
-
-// Configurar pool de MySQL si hay variables de entorno
-let pool = null;
-if (process.env.DB_HOST && process.env.DB_USER && process.env.DB_NAME) {
-  pool = mysql.createPool({
-    host: process.env.DB_HOST,
-    user: process.env.DB_USER,
-    password: process.env.DB_PASS || '',
-    database: process.env.DB_NAME,
-    waitForConnections: true,
-    connectionLimit: 10,
-    queueLimit: 0,
-  });
-  console.log('MySQL pool configurado:', process.env.DB_HOST, process.env.DB_NAME);
-} else {
-  console.log('No se encontraron credenciales MySQL en .env; la API funcionará en modo log-only.');
-}
 
 // Ruta de prueba
 app.get('/', (req, res) => {
@@ -38,7 +21,7 @@ app.post('/api/registro', async (req, res) => {
   console.log('Registro recibido:', registro);
 
   // Si no hay pool configurado, devolvemos OK y no intentamos insertar
-  if (!pool) {
+  if (!db.pool) {
     return res.json({ ok: true, mensaje: 'Registro recibido (modo log, sin BD)', registro });
   }
 
@@ -55,7 +38,7 @@ app.post('/api/registro', async (req, res) => {
       JSON.stringify(registro),
     ];
 
-    const [result] = await pool.query(sql, values);
+    const [result] = await db.query(sql, values);
     console.log('Guardado en BD, id=', result.insertId);
     return res.json({ ok: true, insertId: result.insertId });
   } catch (err) {
